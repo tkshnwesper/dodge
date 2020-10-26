@@ -18,19 +18,23 @@ func start(pos):
 func _ready():
 	screen_size = get_viewport_rect().size
 	hide()
-
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var velocity = Vector2()
-	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("ui_up"):
-		velocity.y -= 1
-	if Input.is_action_pressed("ui_down"):
-		velocity.y += 1
+	var velocity
+	
+	if $"../HUD".is_joystick_enabled:
+		velocity = $"../HUD/Joystick".output
+	else:
+		velocity = Vector2()
+		if Input.is_action_pressed("ui_right"):
+			velocity.x += 1
+		if Input.is_action_pressed("ui_left"):
+			velocity.x -= 1
+		if Input.is_action_pressed("ui_up"):
+			velocity.y -= 1
+		if Input.is_action_pressed("ui_down"):
+			velocity.y += 1
 	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed

@@ -1,11 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Xolonium-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://HUD.gd" type="Script" id=2]
+[ext_resource path="res://Joystick/Joystick.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 60
 font_data = ExtResource( 1 )
+
+[sub_resource type="InputEventAction" id=2]
+action = "ui_select"
+
+[sub_resource type="ShortCut" id=3]
+shortcut = SubResource( 2 )
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -44,6 +51,7 @@ margin_top = -200.0
 margin_right = 86.5
 margin_bottom = -100.0
 custom_fonts/font = SubResource( 1 )
+shortcut = SubResource( 3 )
 text = "Start"
 align = 0
 __meta__ = {
@@ -53,5 +61,13 @@ __meta__ = {
 [node name="MessageTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="Joystick" parent="." instance=ExtResource( 4 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -150.0
+margin_right = 150.0
+rect_scale = Vector2( 0.5, 0.5 )
+visibility_mode = 1
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_MessageTimer_timeout"]

@@ -2,8 +2,12 @@ extends CanvasLayer
 
 signal start_game
 
+export (bool) var is_joystick_enabled = true
+
 func _ready():
-	pass
+	is_joystick_enabled = OS.has_touchscreen_ui_hint()
+	print(is_joystick_enabled)
+	$Joystick.hide()
 
 func show_message(text):
 	$Message.text = text
@@ -19,6 +23,8 @@ func show_game_over():
 	
 	yield(get_tree().create_timer(1), "timeout")
 	$StartButton.show()
+	if is_joystick_enabled:
+		$Joystick.hide()
 
 func update_score(score):
 	$ScoreLabel.text = str(score)
@@ -28,4 +34,7 @@ func _on_MessageTimer_timeout():
 
 func _on_StartButton_pressed():
 	$StartButton.hide()
+	if is_joystick_enabled:
+		$Joystick.show()
 	emit_signal("start_game")
+
